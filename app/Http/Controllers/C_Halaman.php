@@ -27,18 +27,25 @@ class C_Halaman extends Controller
 		$nama = $request->input('nama');
 		$merk = $request->input('merk');
 		$stok = $request->input('stok');
-		$beli = str_replace(",", '', $request->input('harga_beli'));
-		$jual = str_replace(",", '', $request->input('harga_jual'));
+		$beli = $request->input('harga_beli');
+		$jual = $request->input('harga_jual');
 
+		// print_r($nama);
+
+		foreach ($nama as $key => $value) {
+		$bl = str_replace(",", '', $beli[$key]);
+		$jl = str_replace(",", '', $jual[$key]);
+		
 		$data = array(
-			'nama_barang' => $nama,
-			'merk' => $merk,
-			'stok' => $stok,
-			'harga_beli' => (int)$beli,
-			'harga_jual' => (int)$jual
+			'nama_barang' => $value,
+			'merk' => $merk[$key],
+			'stok' => $stok[$key],
+			'harga_beli' => (int)$bl,
+			'harga_jual' => (int)$jl
 		);
-
 		DB::table('daftar_barang')->insert($data);
+		}
+
 		return redirect()->back();
 	}
 

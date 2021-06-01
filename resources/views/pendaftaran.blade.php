@@ -3,7 +3,7 @@
 @section('judul', "Daftar Barang")
 @section('content')
 <div class="row">
-	<div class="col-xl-4 col-lg-7">
+	<div class="col-xl-12 col-lg-7">
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
 				<h6 class="m-0 font-weight-bold text-primary">Tambah Barang</h6>
@@ -11,11 +11,31 @@
 			<div class="card-body">
 				<form action="{{url('/tambah')}}" method="post">
 				{{csrf_field()}}
-				<input id="nB" class="form-control" type="text" name="nama" placeholder="Nama Barang"><br>
-				<input class="form-control" type="text" name="merk" placeholder="Merk"><br>
-				<input class="form-control" type="number" name="stok" placeholder="Jumlah Stok"><br>
-				<input class="form-control duit" type="text" name="harga_beli" placeholder="Harga Beli"><br>
-				<input class="form-control duit" type="text" name="harga_jual" placeholder="Harga Jual"><br>
+				<div class="row" style="margin-bottom: 10px">
+					<input id="nB" class="form-control col-xl-3" type="text" placeholder="Nama Barang" style="margin-right: 5px">
+					<input id="merk" class="form-control col-xl-2" type="text" placeholder="Merk" style="margin-right: 5px">
+					<input id="stok" class="form-control col-xl-1" type="number" placeholder="Stok" style="margin-right: 5px">
+					<input id="hb" class="form-control col-xl-2 duit" type="text" placeholder="Harga Beli" style="margin-right: 5px">
+					<input id="hj" class="form-control col-xl-2 duit" type="text" placeholder="Harga Jual" style="margin-right: 5px">
+					<button id="addTransaksi" type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						
+						<thead>
+							<tr>
+								<th>Nama Barang</th>
+								<th>Merk</th>
+								<th>Jumlah</th>
+								<th>Harga Beli</th>
+								<th>Harga Jual</th>
+							</tr>
+						</thead>
+						<tbody id="body"></tbody>
+
+					</table>
+				</div>
 				<input class="btn btn-primary float-right" type="submit" name="sumbit" value="Tambah">
 				</form>
 			</div>
@@ -141,6 +161,34 @@
 			$('#hargaL').val(barang[$('#gantiHarga').val()].harga_jual);
 			$('#idB').val(barang[$('#gantiHarga').val()].id);
 		})
+
+		var IT = 1;
+
+		$('#addTransaksi').click(function(){
+			$('#body').append(
+				'<tr id="tr_'+IT+'">'+
+					'<td><input id="nama_'+IT+'" type="text" name="nama[]" readonly="true" class="form-control"></td>'+
+					'<td><input id="merk_'+IT+'" type="text" name="merk[]" readonly="true" class="form-control"></td>'+
+					'<td><input id="stok_'+IT+'" type="text" name="stok[]" readonly="true" class="form-control"></td>'+
+					'<td><input id="beli_'+IT+'" type="text" name="harga_beli[]" readonly="true" class="form-control"></td>'+
+					'<td><input id="jual_'+IT+'" type="text" name="harga_jual[]" readonly="true" class="form-control"></td>'+
+				'</tr>'
+				);
+			$('#nama_'+IT).val($('#nB').val());
+			$('#merk_'+IT).val($('#merk').val());
+			$('#stok_'+IT).val($('#stok').val());
+			$('#beli_'+IT).val($('#hb').val());
+			$('#jual_'+IT).val($('#hj').val());
+
+			$('#nB').val('');
+			$('#merk').val('');
+			$('#stok').val('');
+			$('#hb').val('');
+			$('#hj').val('');
+			IT++;
+			
+			$('#nB').focus();
+		});
 
 	});
 </script>
